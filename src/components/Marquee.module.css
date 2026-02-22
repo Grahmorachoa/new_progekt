@@ -1,0 +1,33 @@
+.wrap {
+  overflow: hidden;
+  background: rgba(201,149,122,.15);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(201,149,122,.18);
+  padding: 13px 0;
+  border-radius: 16px;
+  margin: 10px 0;
+}
+.track {
+  display: flex;
+  animation: marq 20s linear infinite;
+  white-space: nowrap;
+}
+.item {
+  font-size: 10px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: rgba(240,220,200,.7);
+  padding: 0 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+.item::after {
+  content: '✦';
+  color: rgba(201,149,122,.5);
+  font-size: 7px;
+}
+@keyframes marq {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

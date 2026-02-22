@@ -1,0 +1,53 @@
+.mapCard { height: 360px; border-radius: 24px; overflow: hidden; margin: 10px 0; }
+.mapBg {
+  width: 100%; height: 100%;
+  background: linear-gradient(150deg,#120E0A 0%,#1A1208 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.mapGrid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,149,122,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,149,122,.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.mapRoads {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,149,122,.13) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(201,149,122,.13) 2px, transparent 2px);
+  background-size: 144px 144px;
+}
+.pinWrap { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+.pin {
+  width: 48px; height: 48px; background: var(--rose);
+  border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+  display: flex; align-items: center; justify-content: center;
+  animation: mapB 2.5s ease-in-out infinite;
+  box-shadow: 0 8px 28px rgba(201,149,122,.45);
+}
+.pinInner { width: 15px; height: 15px; background: white; border-radius: 50%; transform: rotate(45deg); }
+@keyframes mapB {
+  0%, 100% { transform: rotate(-45deg) translateY(0); }
+  50% { transform: rotate(-45deg) translateY(-10px); }
+}
+.shadow {
+  width: 32px; height: 7px; background: rgba(0,0,0,.4); border-radius: 50%; margin-top: 4px;
+  animation: mapS 2.5s ease-in-out infinite;
+}
+@keyframes mapS {
+  0%, 100% { transform: scaleX(1); opacity: .5; }
+  50% { transform: scaleX(.55); opacity: .2; }
+}
+.info {
+  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
+  background: rgba(14,11,8,.88); backdrop-filter: blur(14px);
+  border-radius: 15px; padding: 12px 20px;
+  display: flex; align-items: center; gap: 11px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.4);
+  min-width: 250px; border: 1px solid rgba(201,149,122,.18);
+}
+.infoIcon { font-size: 20px; }
+.infoTitle { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--cream); }
+.infoAddr { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
