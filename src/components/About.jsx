@@ -17,10 +17,10 @@ const stats = [
 
 // Photos: each flies in from a different direction
 const photos = [
-  { src: '/lash.png', alt: 'Praca mistrzyni', cls: styles.tall, dir: 'fromLeft' },
-  { src: '/master.png', alt: 'Mistrzyni Alina', cls: '', dir: 'fromTop' },
-  { src: '/brow.png', alt: 'Stylizacja brwi', cls: '', dir: 'fromRight' },
-  { src: '/hair.png', alt: 'Przedłużanie włosów', cls: '', dir: 'fromBottom' },
+  { src: '/lash.webp', alt: 'Praca mistrzyni - Ламинирование ресниц фото', cls: styles.tall, dir: 'fromLeft' },
+  { src: '/master.webp', alt: 'Mistrzyni Alina - Ламинирование ресниц фото', cls: '', dir: 'fromTop' },
+  { src: '/brow.webp', alt: 'Stylizacja brwi - Ламинирование ресниц фото', cls: '', dir: 'fromRight' },
+  { src: '/hair.webp', alt: 'Przedłużanie włosów - Ламинирование ресниц фото', cls: '', dir: 'fromBottom' },
 ]
 
 export default function About({ onOpenChat }) {

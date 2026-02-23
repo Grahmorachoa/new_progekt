@@ -1,17 +1,17 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
+import DOMPurify from 'dompurify'
 import styles from './Chatbot.module.css'
 
-const QUICK_REPLIES_INIT = ['Ресницы','Ламинирование','Брови','Волосы']
-const TIME_OPTIONS = ['Сегодня','Завтра','На этой неделе','Выбрать дату']
+const N8N_WEBHOOK = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://genri.app.n8n.cloud/webhook/0147fbaa-06f7-4219-a790-d942ec86faab'
+
+const QUICK_REPLIES_INIT = ['Rzęsy', 'Laminowanie', 'Brwi', 'Włosy']
 
 export default function Chatbot({ isOpen, onOpen, onClose }) {
   const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Привет! Помогу записаться на услугу 💫 Что вас интересует?' }
+    { type: 'bot', text: 'Cześć! Pomogę Ci umówić wizytę 💫 Co Cię interesuje?' }
   ])
   const [quickReplies, setQuickReplies] = useState(QUICK_REPLIES_INIT)
   const [input, setInput] = useState('')
-  const [state, setState] = useState('start')
-  const [selectedSvc, setSelectedSvc] = useState('')
   const [typing, setTyping] = useState(false)
   const msgsRef = useRef(null)
 
@@ -24,47 +24,50 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
     scrollBottom()
   }
 
-  const botReply = (text, replies = []) => {
+  /* ── Send to n8n and get AI reply ── */
+  const sendToN8n = async (userText) => {
     setTyping(true)
     setQuickReplies([])
-    setTimeout(() => {
+    try {
+      const res = await fetch(N8N_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userText, sessionId: 'lumi-web' }),
+      })
+
+      let botText = 'Дякую! Зв\'яжемося з вами незабаром 💛'
+
+      if (res.ok) {
+        const data = await res.json()
+        // n8n can return: { reply }, { text }, { output }, { message } or plain string
+        botText =
+          data?.reply ||
+          data?.text ||
+          data?.output ||
+          data?.message ||
+          (typeof data === 'string' ? data : botText)
+      }
+
       setTyping(false)
-      addMsg(text)
-      setQuickReplies(replies)
-    }, 900)
+      addMsg(botText)
+    } catch {
+      setTyping(false)
+      addMsg('Вибачте, сталася помилка. Спробуйте ще раз або зателефонуйте нам 📞')
+    }
   }
 
-  const selectSvc = (svc) => {
-    setSelectedSvc(svc)
-    addMsg(svc, 'user')
-    setQuickReplies([])
-    botReply(`Отличный выбор! ${svc} 💕\nКогда вам удобно прийти?`, TIME_OPTIONS)
-    setState('time')
-  }
-
-  const selectTime = (t) => {
-    addMsg(t, 'user')
-    setQuickReplies([])
-    botReply('Напишите имя и телефон для подтверждения 📝', [])
-    setState('contact')
-  }
-
-  const handleQR = (val) => {
-    if (state === 'start') selectSvc(val)
-    else if (state === 'time') selectTime(val)
-  }
-
-  const sendMsg = () => {
+  const handleSend = () => {
     const t = input.trim()
     if (!t) return
     addMsg(t, 'user')
     setInput('')
-    if (state === 'contact') {
-      botReply(`Спасибо! ✨ Заявка принята. Свяжемся для подтверждения записи на ${selectedSvc}. До встречи! 💛`)
-      setState('done')
-    } else {
-      botReply('Выберите интересующую услугу:', QUICK_REPLIES_INIT)
-    }
+    sendToN8n(t)
+  }
+
+  const handleQR = (val) => {
+    addMsg(val, 'user')
+    setQuickReplies([])
+    sendToN8n(val)
   }
 
   return (
@@ -76,8 +79,8 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
             <div className={styles.agent}>
               <div className={styles.av}>✨<div className={styles.online} /></div>
               <div>
-                <div className={styles.agentName}>Lumi — запись онлайн</div>
-                <div className={styles.agentStatus}>● Онлайн</div>
+                <div className={styles.agentName}>Lumi — rezerwacja online</div>
+                <div className={styles.agentStatus}>● Online</div>
               </div>
             </div>
             <button className={styles.close} onClick={onClose}>✕</button>
@@ -87,13 +90,13 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
             {messages.map((m, i) => (
               <div key={i} className={`${styles.msg} ${m.type === 'user' ? styles.user : styles.bot}`}>
                 {m.type === 'bot' && <div className={styles.mav}>✨</div>}
-                <div className={styles.mb} dangerouslySetInnerHTML={{ __html: m.text.replace(/\n/g,'<br/>') }} />
+                <div className={styles.mb} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(m.text.replace(/\n/g, '<br/>')) }} />
               </div>
             ))}
             {typing && (
               <div className={`${styles.msg} ${styles.bot}`}>
                 <div className={styles.mav}>✨</div>
-                <div className={styles.mb}><span className={styles.dot}/><span className={styles.dot}/><span className={styles.dot}/></div>
+                <div className={styles.mb}><span className={styles.dot} /><span className={styles.dot} /><span className={styles.dot} /></div>
               </div>
             )}
           </div>
@@ -111,10 +114,10 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
               className={styles.inp}
               value={input}
               onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && sendMsg()}
-              placeholder="Напишите сообщение..."
+              onKeyDown={e => e.key === 'Enter' && handleSend()}
+              placeholder="Napisz wiadomość..."
             />
-            <button className={styles.send} onClick={sendMsg}>➤</button>
+            <button className={styles.send} onClick={handleSend}>➤</button>
           </div>
         </div>
       )}

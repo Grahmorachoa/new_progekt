@@ -30,7 +30,7 @@ export default function Hero({ onOpenChat }) {
 
       {/* Right: master photo only */}
       <div className={styles.visual}>
-        <img src="/master.png" alt="Mistrzyni Lumi Beauty" className={styles.masterImg} />
+        <img src="/master.webp" alt="Mistrzyni Lumi Beauty - Ламинирование ресниц фото" className={styles.masterImg} />
       </div>
     </div>
   )

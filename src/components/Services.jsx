@@ -7,7 +7,7 @@ function ServiceCard({ svc, tag, tagClass, onBook }) {
     <div className={styles.card}>
       <div className={styles.cardImg} style={{ background: svc.bg }}>
         {svc.photo
-          ? <img src={svc.photo} alt={svc.title} className={styles.cardPhoto} />
+          ? <img src={svc.photo} alt={svc.title + " - Ламинирование ресниц фото"} className={styles.cardPhoto} />
           : <span className={styles.cardImgIcon}>{svc.icon}</span>
         }
       </div>

@@ -2,14 +2,14 @@ import { useState } from 'react'
 import styles from './Works.module.css'
 
 const works = [
-  { photo: '/lash.png', label: 'Klasyka 1:1', tag: 'Naturalny efekt', bg: 'linear-gradient(135deg,#3A2818,#2A1C0E)' },
-  { photo: '/lash.png', label: 'Objętość 2D', tag: 'Brązowe rzęsy', bg: 'linear-gradient(135deg,#322414,#221809)' },
-  { photo: '/lash.png', label: 'Mega objętość', tag: 'Czarny efekt', bg: 'linear-gradient(135deg,#2A1E10,#1C1208)' },
-  { photo: '/lash.png', label: 'Laminowanie', tag: 'Przed i po', bg: 'linear-gradient(135deg,#382614,#281808)' },
-  { photo: '/brow.png', label: 'Brwi', tag: 'Korekta kształtu', bg: 'linear-gradient(135deg,#342012,#240E06)' },
-  { photo: '/hair.png', label: 'Włosy', tag: 'Keratynowe', bg: 'linear-gradient(135deg,#301C10,#200C06)' },
-  { photo: '/lash.png', label: 'Objętość 3D', tag: 'Ciemny efekt', bg: 'linear-gradient(135deg,#2C180C,#1C0C04)' },
-  { photo: '/hair.png', label: 'Taśmowe', tag: 'Do ramion', bg: 'linear-gradient(135deg,#281408,#180802)' },
+  { photo: '/lash.webp', label: 'Klasyka 1:1', tag: 'Naturalny efekt', bg: 'linear-gradient(135deg,#3A2818,#2A1C0E)' },
+  { photo: '/lash.webp', label: 'Objętość 2D', tag: 'Brązowe rzęsy', bg: 'linear-gradient(135deg,#322414,#221809)' },
+  { photo: '/lash.webp', label: 'Mega objętość', tag: 'Czarny efekt', bg: 'linear-gradient(135deg,#2A1E10,#1C1208)' },
+  { photo: '/lash.webp', label: 'Laminowanie', tag: 'Przed i po', bg: 'linear-gradient(135deg,#382614,#281808)' },
+  { photo: '/brow.webp', label: 'Brwi', tag: 'Korekta kształtu', bg: 'linear-gradient(135deg,#342012,#240E06)' },
+  { photo: '/hair.webp', label: 'Włosy', tag: 'Keratynowe', bg: 'linear-gradient(135deg,#301C10,#200C06)' },
+  { photo: '/lash.webp', label: 'Objętość 3D', tag: 'Ciemny efekt', bg: 'linear-gradient(135deg,#2C180C,#1C0C04)' },
+  { photo: '/hair.webp', label: 'Taśmowe', tag: 'Do ramion', bg: 'linear-gradient(135deg,#281408,#180802)' },
 ]
 
 const len = works.length
@@ -36,7 +36,7 @@ export default function Works() {
         <div className={styles.stage}>
           {/* Prev card */}
           <div className={`${styles.card} ${styles.side} ${styles.sideL}`} onClick={prev} style={{ background: works[prevIdx].bg }}>
-            <img src={works[prevIdx].photo} alt={works[prevIdx].label} className={styles.img} />
+            <img src={works[prevIdx].photo} alt={works[prevIdx].label + " - Ламинирование ресниц фото"} className={styles.img} />
             <div className={styles.sideOverlay}>
               <span className={styles.sideLabel}>{works[prevIdx].label}</span>
             </div>
@@ -44,7 +44,7 @@ export default function Works() {
 
           {/* Main center card */}
           <div className={`${styles.card} ${styles.main}`} style={{ background: works[idx].bg }}>
-            <img src={works[idx].photo} alt={works[idx].label} className={styles.img} />
+            <img src={works[idx].photo} alt={works[idx].label + " - Ламинирование ресниц фото"} className={styles.img} />
             <div className={styles.mainOverlay}>
               <div className={styles.mainLabel}>{works[idx].label}</div>
               <div className={styles.mainTag}>{works[idx].tag}</div>
@@ -55,7 +55,7 @@ export default function Works() {
 
           {/* Next card */}
           <div className={`${styles.card} ${styles.side} ${styles.sideR}`} onClick={next} style={{ background: works[nextIdx].bg }}>
-            <img src={works[nextIdx].photo} alt={works[nextIdx].label} className={styles.img} />
+            <img src={works[nextIdx].photo} alt={works[nextIdx].label + " - Ламинирование ресниц фото"} className={styles.img} />
             <div className={styles.sideOverlay}>
               <span className={styles.sideLabel}>{works[nextIdx].label}</span>
             </div>

@@ -10,7 +10,7 @@ export const categories = [
       {
         icon: '👁️',
         bg: 'linear-gradient(135deg,#3A2818,#281808)',
-        photo: '/lash.png',
+        photo: '/lash.webp',
         title: 'Przedłużanie klasyczne',
         desc: 'Jeden włosek na jeden naturalny. Zadbany, naturalny wygląd na co dzień.',
         price: 'od 150 zł',
@@ -19,7 +19,7 @@ export const categories = [
       {
         icon: '✨',
         bg: 'linear-gradient(135deg,#332014,#221408)',
-        photo: '/lash.png',
+        photo: '/lash.webp',
         title: 'Objętość 2D / 3D / 4D',
         desc: 'Pęczki 2–4 włosków dla bujnego i wyrazistego spojrzenia.',
         price: 'od 220 zł',
@@ -28,7 +28,7 @@ export const categories = [
       {
         icon: '💎',
         bg: 'linear-gradient(135deg,#2A1A10,#1A0E06)',
-        photo: '/lash.png',
+        photo: '/lash.webp',
         title: 'Mega objętość',
         desc: '5–10 włosków w pęczku — maksymalna puszystość i luksusowe spojrzenie.',
         price: 'od 290 zł',
@@ -37,7 +37,7 @@ export const categories = [
       {
         icon: '🌿',
         bg: 'linear-gradient(135deg,#381E12,#26120A)',
-        photo: '/lash.png',
+        photo: '/lash.webp',
         title: 'Laminowanie rzęs',
         desc: 'Trwała ondulacja, odżywienie i wzmocnienie naturalnych rzęs na 6–8 tygodni.',
         price: 'od 180 zł',
@@ -56,7 +56,7 @@ export const categories = [
       {
         icon: '🌙',
         bg: 'linear-gradient(135deg,#2E1C10,#1E1008)',
-        photo: '/brow.png',
+        photo: '/brow.webp',
         title: 'Regulacja brwi',
         desc: 'Idealny kształt dopasowany do rysów twarzy. Wosk, nić lub pęseta.',
         price: 'od 80 zł',
@@ -65,7 +65,7 @@ export const categories = [
       {
         icon: '✦',
         bg: 'linear-gradient(135deg,#341E0E,#221208)',
-        photo: '/brow.png',
+        photo: '/brow.webp',
         title: 'Laminowanie brwi',
         desc: 'Układanie i utrwalanie — wyrazisty wygląd bez makijażu przez 4–6 tygodni.',
         price: 'od 140 zł',
@@ -84,7 +84,7 @@ export const categories = [
       {
         icon: '🪄',
         bg: 'linear-gradient(135deg,#281810,#180E06)',
-        photo: '/hair.png',
+        photo: '/hair.webp',
         title: 'Przedłużanie keratynowe',
         desc: 'Mocowanie na kapsułkach keratynowych. Niewidoczna metoda do 4–6 miesięcy.',
         price: 'od 900 zł',
@@ -93,7 +93,7 @@ export const categories = [
       {
         icon: '💫',
         bg: 'linear-gradient(135deg,#22140C,#140A04)',
-        photo: '/hair.png',
+        photo: '/hair.webp',
         title: 'Przedłużanie taśmowe',
         desc: 'Szybko i przystępnie. Dodaje objętości i długości, nosić do 2–3 miesięcy.',
         price: 'od 600 zł',
@@ -102,7 +102,7 @@ export const categories = [
       {
         icon: '🌟',
         bg: 'linear-gradient(135deg,#1E1208,#100C04)',
-        photo: '/hair.png',
+        photo: '/hair.webp',
         title: 'Mikrokapsułkowe',
         desc: 'Mini-kapsułki są niewidoczne. Idealne do cienkich jasnych włosów, do 5 miesięcy.',
         price: 'od 1100 zł',
