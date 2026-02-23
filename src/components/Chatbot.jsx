@@ -1,18 +1,17 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import DOMPurify from 'dompurify'
 import styles from './Chatbot.module.css'
 
 const N8N_WEBHOOK = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://genri.app.n8n.cloud/webhook/0147fbaa-06f7-4219-a790-d942ec86faab'
 
-const QUICK_REPLIES_INIT = ['Rzęsy', 'Laminowanie', 'Brwi', 'Włosy']
-
 export default function Chatbot({ isOpen, onOpen, onClose }) {
-  const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Cześć! Pomogę Ci umówić wizytę 💫 Co Cię interesuje?' }
-  ])
-  const [quickReplies, setQuickReplies] = useState(QUICK_REPLIES_INIT)
+  const [messages, setMessages] = useState([])
+  const [quickReplies, setQuickReplies] = useState([])
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
+
+  // Генерируем уникальный ID сессии для каждого посетителя (чтобы N8N помнил контекст переписки)
+  const [sessionId] = useState(() => 'session-' + Math.random().toString(36).substring(2, 10))
   const msgsRef = useRef(null)
 
   const scrollBottom = () => {
@@ -20,41 +19,59 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
   }
 
   const addMsg = (text, type = 'bot') => {
+    if (!text) return;
     setMessages(prev => [...prev, { type, text }])
     scrollBottom()
   }
 
-  /* ── Send to n8n and get AI reply ── */
-  const sendToN8n = async (userText) => {
+  /* ── Отправка и получение ответа от N8N (чистый посредник) ── */
+  const sendToN8n = async (userText, isInit = false) => {
     setTyping(true)
     setQuickReplies([])
+
     try {
       const res = await fetch(N8N_WEBHOOK, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userText, sessionId: 'lumi-web' }),
+        body: JSON.stringify({
+          message: userText,
+          sessionId,
+          action: isInit ? 'init' : 'message' // Даем N8N понять, это просто открытие чата или сообщение
+        }),
       })
-
-      let botText = 'Дякую! Зв\'яжемося з вами незабаром 💛'
 
       if (res.ok) {
         const data = await res.json()
-        // n8n can return: { reply }, { text }, { output }, { message } or plain string
-        botText =
-          data?.reply ||
-          data?.text ||
-          data?.output ||
-          data?.message ||
-          (typeof data === 'string' ? data : botText)
-      }
 
+        // Читаем текст ответа от webhook
+        const botText = data?.reply || data?.text || data?.output || data?.message || (typeof data === 'string' ? data : null)
+
+        if (botText) {
+          addMsg(botText, 'bot')
+        }
+
+        // Читаем быстрые ответы от webhook (если N8N их прислал как массив строк)
+        if (data?.quickReplies && Array.isArray(data.quickReplies)) {
+          setQuickReplies(data.quickReplies)
+        }
+      }
+    } catch (err) {
+      console.error('N8N Fetch Error:', err)
+      // Показываем ошибку связи только если это был реальный запрос от пользователя
+      if (!isInit) {
+        addMsg('Сервер временно недоступен / Connection error.', 'bot')
+      }
+    } finally {
       setTyping(false)
-      addMsg(botText)
-    } catch {
-      setTyping(false)
-      addMsg('Вибачте, сталася помилка. Спробуйте ще раз або зателефонуйте нам 📞')
     }
   }
+
+  /* ── Инициализация: запрашиваем приветствие от N8N при открытии окна ── */
+  useEffect(() => {
+    if (isOpen && messages.length === 0 && !typing) {
+      sendToN8n('', true)
+    }
+  }, [isOpen])
 
   const handleSend = () => {
     const t = input.trim()
@@ -66,7 +83,6 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
 
   const handleQR = (val) => {
     addMsg(val, 'user')
-    setQuickReplies([])
     sendToN8n(val)
   }
 
@@ -79,7 +95,7 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
             <div className={styles.agent}>
               <div className={styles.av}>✨<div className={styles.online} /></div>
               <div>
-                <div className={styles.agentName}>Lumi — rezerwacja online</div>
+                <div className={styles.agentName}>Lumi — AI Chat</div>
                 <div className={styles.agentStatus}>● Online</div>
               </div>
             </div>
