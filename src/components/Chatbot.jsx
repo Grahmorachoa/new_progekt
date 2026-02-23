@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import DOMPurify from 'dompurify'
 import styles from './Chatbot.module.css'
 
-const N8N_WEBHOOK = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://genri.app.n8n.cloud/webhook/0147fbaa-06f7-4219-a790-d942ec86faab'
+const N8N_WEBHOOK = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://genri.app.n8n.cloud/webhook-test/MHLashroom';
 
 export default function Chatbot({ isOpen, onOpen, onClose }) {
   const [messages, setMessages] = useState([])
